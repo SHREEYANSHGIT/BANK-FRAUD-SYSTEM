@@ -12,6 +12,8 @@ st.set_page_config(page_title="Fraud Detection System", layout="centered")
 st.title("💳 Fraud Detection System")
 st.caption("Rule-based validation + ML risk scoring")
 
+st.caption("Developed by Shreeyansh Asati ")
+
 # ------------------------------------------------
 # HARD FRAUD RULES
 # ------------------------------------------------
@@ -156,3 +158,28 @@ if submitted:
         st.subheader("🔎 Triggered Risk Rules")
         for r in rule_reasons:
             st.write("•", r)
+
+
+
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: transparent;
+        color: #6c757d;
+        text-align: center;
+        font-size: 18px;
+        padding: 8px;
+    }
+    </style>
+
+    <div class="footer">
+        © 2025 | Built by <b>Shreeyansh Asati</b> | Hybrid Fraud Detection System
+    </div>
+    """,
+    unsafe_allow_html=True
+)
