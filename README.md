@@ -175,11 +175,17 @@ Live App:
 🔮 FUTURE IMPROVEMENTS
 --------------------------------------------------
 • Transaction velocity rules
+
 • User historical profiling
+
 • Rule weights configuration file
+
 • Audit logs (CSV / DB)
+
 • Explainability (SHAP)
+
 • REST API (FastAPI)
+
 • Docker deployment
 
 --------------------------------------------------
