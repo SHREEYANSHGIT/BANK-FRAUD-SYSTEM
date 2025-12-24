@@ -154,6 +154,7 @@ Features:
 🚧 CHALLENGES FACED
 --------------------------------------------------
 🔴 Highly imbalanced dataset
+
 🔴 ML misclassifying logically impossible cases
 🔴 Deployment issues on Streamlit Cloud
 🔴 Python version & dependency conflicts
