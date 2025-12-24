@@ -233,6 +233,11 @@ CI/CD: GitHub auto-deploy on push
 Live App:
 🌐 https://bank-fraud-system-shreeyansh.streamlit.app/  
 
+<img width="734" height="859" alt="image" src="https://github.com/user-attachments/assets/8097ef4a-6b61-4162-8548-748fa28f0023" />
+
+
+
+
 --------------------------------------------------
 🔮 FUTURE IMPROVEMENTS
 --------------------------------------------------
