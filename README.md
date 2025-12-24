@@ -44,6 +44,8 @@ based on real financial behavior.
 • Widely used in fraud research
 • Mimics real payment systems
 
+<img width="678" height="470" alt="image" src="https://github.com/user-attachments/assets/355fc098-84a9-446d-a3d4-2df820bac0d6" />
+
 🔗 Dataset Link:
 https://www.kaggle.com/datasets/ealaxi/paysim1
 
@@ -72,6 +74,10 @@ XGBoost is powerful but:
 
 In fraud systems, **stability & explainability > marginal accuracy gains**.
 
+
+<img width="691" height="451" alt="image" src="https://github.com/user-attachments/assets/7cc51dda-f4da-460a-be5d-c64a4f225c09" />
+
+
 --------------------------------------------------
 📈 MODEL PERFORMANCE
 --------------------------------------------------
@@ -82,9 +88,8 @@ Recall (Fraud)      | ~90%
 ROC-AUC             | High
 False Negatives     | Minimized (priority)
 
-📌 Why Recall is prioritized?
-Missing a fraud is more costly than flagging a legit transaction.
-
+📌 why RANDOM FOREST over XGBOOST?
+Random Forest output is more balanced then XGboost
 --------------------------------------------------
 🧠 WHY ML + RULE-BASED (NOT ONLY ML)
 --------------------------------------------------
@@ -113,6 +118,10 @@ ML = Risk probability
 Rules = Absolute financial logic  
 
 This is how **real banks & fintech companies** operate.
+--------------------------------------------------
+🗺️HEAT MAP (DEPENDENT AND INDEPENDENT PARAMETERS)
+--------------------------------------------------
+<img width="785" height="665" alt="image" src="https://github.com/user-attachments/assets/69607b51-7d09-4b2a-b916-3dd62541af11" />
 
 --------------------------------------------------
 ⚙️ SYSTEM ARCHITECTURE
