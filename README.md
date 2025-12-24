@@ -5,7 +5,7 @@
 
 🔗 Linkedin : https://www.linkedin.com/in/shreeyansh-asati-18shreey/
 
-🔗 GitHub : https://github.com/SHREEYANSHGIT/ML-AND-DEEPLEARNING-PROJECTS-/tree/main/MAJORS%20PROJECTS/HYBRID%20BANK%20FRAUD%20SYSTEM
+🔗 GitHub : https://github.com/SHREEYANSHGIT/BANK-FRAUD-SYSTEM
 
 🌐 Live App (Streamlit): https://bank-fraud-system-shreeyansh.streamlit.app/
 
