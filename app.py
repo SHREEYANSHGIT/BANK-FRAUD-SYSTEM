@@ -217,8 +217,8 @@ st.markdown(
         position: fixed;
         bottom: 0;
         width: 100%;
-        text-align: center;
-        font-size: 18px;
+        text-align: centered;
+        font-size: 16px;
         color: gray;
     }
     </style>
@@ -228,3 +228,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
