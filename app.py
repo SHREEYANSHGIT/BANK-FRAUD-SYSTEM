@@ -1,37 +1,40 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 
 # ------------------------------------------------
 # Load trained model
 # ------------------------------------------------
-model = joblib.load("rf_model.joblib")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "rf_model.joblib")
+model = joblib.load(MODEL_PATH)
 
 st.set_page_config(page_title="Fraud Detection System", layout="centered")
 
 st.title("💳 Fraud Detection System")
 st.caption("Rule-based validation + ML risk scoring")
-
-st.caption("Developed by Shreeyansh Asati ")
+st.caption("Developed by Shreeyansh Asati")
 
 # ------------------------------------------------
 # HARD FRAUD RULES
 # ------------------------------------------------
-def hard_fraud_rules(amount, oldOrg, newOrg, oldDest, newDest):
+def hard_fraud_rules(amount, oldOrg, newOrg, oldDest, newDest, tx_type):
+
     if amount <= 0:
         return True, "Invalid transaction amount"
 
     if amount > oldOrg:
-        return True, "Amount exceeds available sender balance"
+        return True, "Amount exceeds sender balance"
 
     if abs((oldOrg - newOrg) - amount) > 1e-2:
-        return True, "Sender balance change does not match amount"
+        return True, "Sender balance change mismatch"
 
-    if (newDest - oldDest) > 0 and oldOrg == newOrg:
-        return True, "Receiver credited without sender debit"
-
-    if (newDest - oldDest) > amount:
-        return True, "Receiver credited more than transferred amount"
+    if tx_type != "CASH_OUT":
+        if oldDest <= 0:
+            return True, "Receiver old balance missing or zero"
+        if (newDest - oldDest) != amount:
+            return True, "Receiver balance not credited correctly"
 
     if newOrg < 0 or newDest < 0:
         return True, "Negative balance detected"
@@ -40,55 +43,77 @@ def hard_fraud_rules(amount, oldOrg, newOrg, oldDest, newDest):
 
 
 # ------------------------------------------------
-# RISK SCORING RULES
+# RISK SCORE RULES (UPDATED)
 # ------------------------------------------------
-def risk_score_rules(amount, oldOrg, tx_type):
+def risk_score_rules(amount, oldOrg, newOrg, tx_type):
     score = 0.0
     reasons = []
 
-    if amount > 400000:
+    
+    if amount >= 400000:
         score += 0.3
-        reasons.append("High-value transaction (>50k)")
-
-    if amount > 40000:
-        score += 0.3
-        reasons.append("High-value transaction (>50k)")
+        reasons.append("Very high-value transaction over 10 lakhs ")
+        
+    if amount >= 1000000:
+        score += 0.1
+        reasons.append("Very high-value transaction over 4 lakhs")
 
     if amount > 0.9 * oldOrg:
         score += 0.3
-        reasons.append("Amount drains >90% of sender balance")
+        reasons.append("Drains more than 90% balance")
 
-    if (oldOrg - amount) == 0:
-        score += 0.2
-        reasons.append("Sender balance becomes zero")
+    # 🔥 NEW RULE: Sender balance becomes zero
+    if newOrg == 0:
+        score += 0.3
+        reasons.append("Sender balance suddenly became zero")
 
-    if tx_type == "CASH_OUT" or amount > 40000:
+    if tx_type == "CASH_OUT":
         score += 0.2
-        reasons.append("High-risk transaction type (CASH_OUT)")
+        reasons.append("High-risk CASH_OUT transaction")
 
     return score, reasons
 
 
 # ------------------------------------------------
-# USER INPUT FORM
+# INPUT VALIDATION
+# ------------------------------------------------
+def validate_inputs(tx_type, oldDest, newDest):
+
+    if tx_type == "CASH_OUT":
+        return []
+
+    errors = []
+    if oldDest <= 0:
+        errors.append("Receiver old balance is 0")
+
+    if newDest <= 0:
+        errors.append("Receiver new balance is 0")
+
+    return errors
+
+
+# ------------------------------------------------
+# USER FORM
 # ------------------------------------------------
 with st.form("transaction_form"):
     st.subheader("🔍 Enter Transaction Details")
 
-    step = st.number_input("Step", min_value=0, value=1)
-    amount = st.number_input("Amount", min_value=0.0, step=100.0)
-
-    oldbalanceOrg = st.number_input("Old Balance (Sender)", min_value=0.0)
-    newbalanceOrig = st.number_input("New Balance (Sender)", min_value=0.0)
-
-    oldbalanceDest = st.number_input("Old Balance (Receiver)", min_value=0.0)
-    newbalanceDest = st.number_input("New Balance (Receiver)", min_value=0.0)
-
-    # 👉 Drag / Dropdown Transaction Type
     tx_type = st.selectbox(
         "Transaction Type",
         ["CASH_OUT", "TRANSFER", "PAYMENT", "DEBIT"]
     )
+
+    if tx_type == "CASH_OUT":
+        st.info("ℹ️ CASH_OUT selected → Receiver balances NOT required")
+
+    step = st.number_input("Step", min_value=1, value=1)
+    amount = st.number_input("Amount", min_value=0.01)
+
+    oldbalanceOrg = st.number_input("Old Balance (Sender)", min_value=0.01)
+    newbalanceOrig = st.number_input("New Balance (Sender)", min_value=0.0)
+
+    oldbalanceDest = st.number_input("Old Balance (Receiver)", min_value=0.0)
+    newbalanceDest = st.number_input("New Balance (Receiver)", min_value=0.0)
 
     submitted = st.form_submit_button("🚀 Check Fraud Risk")
 
@@ -98,12 +123,29 @@ with st.form("transaction_form"):
 # ------------------------------------------------
 if submitted:
 
+    if tx_type == "CASH_OUT":
+        oldbalanceDest = 0
+        newbalanceDest = 0
+
+    validation_errors = validate_inputs(
+        tx_type,
+        oldbalanceDest,
+        newbalanceDest
+    )
+
+    if validation_errors:
+        st.error("🚫 FRAUD — BLOCK PAYMENT")
+        for err in validation_errors:
+            st.write("•", err)
+        st.stop()
+
     is_fraud, reason = hard_fraud_rules(
         amount,
         oldbalanceOrg,
         newbalanceOrig,
         oldbalanceDest,
-        newbalanceDest
+        newbalanceDest,
+        tx_type
     )
 
     if is_fraud:
@@ -132,12 +174,17 @@ if submitted:
     df = df.reindex(columns=model.feature_names_in_, fill_value=0)
 
     ml_score = model.predict_proba(df)[0][1]
-    rule_risk, rule_reasons = risk_score_rules(amount, oldbalanceOrg, tx_type)
+    rule_risk, rule_reasons = risk_score_rules(
+        amount,
+        oldbalanceOrg,
+        newbalanceOrig,
+        tx_type
+    )
 
     total_risk = min(ml_score + rule_risk, 1.0)
 
     # ------------------------------------------------
-    # DECISION OUTPUT
+    # OUTPUT
     # ------------------------------------------------
     st.subheader("📊 Fraud Decision")
 
@@ -147,10 +194,10 @@ if submitted:
 
     if total_risk < 0.30:
         st.success("✅ NOT FRAUD — Transaction Approved")
-
     elif total_risk < 0.70:
         st.warning("⚠️ FLAGGED — Manual Review Required")
-
+    elif total_risk < 0.80:
+        st.warning("⚠️⚠️ HIGH CHANCE OF FRAUD - Manual Review mandatory")
     else:
         st.error("🚫 FRAUD — BLOCK PAYMENT")
 
@@ -160,23 +207,21 @@ if submitted:
             st.write("•", r)
 
 
-
+# ------------------------------------------------
+# FOOTER
+# ------------------------------------------------
 st.markdown(
     """
     <style>
     .footer {
         position: fixed;
-        left: 0;
         bottom: 0;
         width: 100%;
-        background-color: transparent;
-        color: #6c757d;
         text-align: center;
         font-size: 18px;
-        padding: 8px;
+        color: gray;
     }
     </style>
-
     <div class="footer">
         © 2025 | Built by <b>Shreeyansh Asati</b> | Hybrid Fraud Detection System
     </div>
