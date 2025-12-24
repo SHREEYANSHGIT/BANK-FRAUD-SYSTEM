@@ -1,9 +1,13 @@
 💳 HYBRID FRAUD DETECTION SYSTEM  
 ================================
 
-👨‍💻 Developed By: Shreeyansh Asati  
-🔗 GitHub: https://github.com/<your-username>/<repo-name>  
-🌐 Live App (Streamlit): https://<your-app-name>.streamlit.app  
+# 👨‍💻 Developed By: Shreeyansh Asati  
+
+🔗 GitHub: https://www.linkedin.com/in/shreeyansh-asati-18shreey/
+
+🌐 Live App (Streamlit): https://bank-fraud-system-shreeyansh.streamlit.app/
+
+💾 Dataset link : https://www.kaggle.com/datasets/mtalaltariq/paysim-data
 
 --------------------------------------------------
 📌 PROJECT OVERVIEW
@@ -13,8 +17,11 @@ digital payment transactions.
 
 Unlike simple ML projects, this system combines:
 ✅ Machine Learning (Random Forest)
+
 ✅ Rule-Based Fraud Detection
+
 ✅ Risk Scoring & Decision Engine
+
 ✅ User-Friendly Streamlit Web App
 
 The goal is NOT just to predict fraud, but to make **actionable decisions**:
@@ -26,6 +33,7 @@ The goal is NOT just to predict fraud, but to make **actionable decisions**:
 📊 DATASET INFORMATION
 --------------------------------------------------
 📁 Dataset Used: PaySim – A Financial Mobile Money Simulator Dataset
+
 
 📌 Description:
 PaySim is a synthetic dataset that simulates mobile money transactions
@@ -47,9 +55,13 @@ Model Used: **Random Forest Classifier**
 📌 Why Random Forest over XGBoost?
 ---------------------------------
 ✔ Handles class imbalance well
+
 ✔ Robust to noisy financial data
+
 ✔ Easier to interpret for risk systems
+
 ✔ Faster & more stable for deployment
+
 ✔ Less overfitting compared to boosting
 
 🚫 Why NOT only XGBoost?
@@ -81,11 +93,16 @@ Machine Learning:
 ✔ Learns probabilistic behavior
 
 BUT ML CANNOT:
+
 ❌ Enforce financial laws
+
 ❌ Guarantee ledger consistency
+
 ❌ Catch logically impossible cases
 
+
 📌 Example:
+
 If sender balance is NOT reduced but receiver balance increases,
 ML alone may still say “Not Fraud”.
 
@@ -101,30 +118,44 @@ This is how **real banks & fintech companies** operate.
 ⚙️ SYSTEM ARCHITECTURE
 --------------------------------------------------
 Transaction Input
+
       ↓
 Hard Fraud Rules (Ledger Validation)
+
       ↓
 Risk Scoring Rules (Behavioral)
+
       ↓
 ML Probability (Random Forest)
+
       ↓
 Final Decision Engine
+
       ↓
 ✅ NOT FRAUD | ⚠️ FLAGGED | 🚫 FRAUD
+
 
 --------------------------------------------------
 🧱 RULE-BASED LOGIC (Examples)
 --------------------------------------------------
 🚫 HARD RULES (Immediate Block)
+
 • Amount > Sender balance
+
 • Sender balance not deducted correctly
+
 • Receiver credited incorrectly
+
 • Negative balances
 
 ⚠️ RISK RULES (Score Based)
+
 • High-value transaction
+
 • Account drained >90%
+
 • Sender balance suddenly becomes zero
+
 • CASH_OUT transactions
 
 --------------------------------------------------
@@ -133,28 +164,49 @@ Final Decision Engine
 Framework: Streamlit
 
 Features:
+
 ✔ Interactive UI
+
 ✔ Mandatory input validation
+
 ✔ CASH_OUT logic handling
+
 ✔ Real-time risk explanation
+
 ✔ Deployed on Streamlit Cloud
+
+--------------------------------------------------
+📁 Project Structure
+--------------------------------------------------
+📂 Hybrid-Fraud-Detection
+- │
+- ├── 📓 main_model.ipynb              # Model training & evaluation
+- ├── 📦 rf_model.joblib               # Trained Random Forest model
+- ├── 🖥️ app.py                        # Streamlit application
+- ├── 📄 requirements.txt              # Required libraries
+- └── 📘 README.txt                    # Project documentation
 
 --------------------------------------------------
 📚 LIBRARIES USED
 --------------------------------------------------
 • Python
+
 • Pandas
+
 • NumPy
+
 • Scikit-learn
+
 • Joblib
+
 • Streamlit
+
 • OS (path handling)
 
 --------------------------------------------------
 🚧 CHALLENGES FACED
 --------------------------------------------------
 🔴 Highly imbalanced dataset
-
 🔴 ML misclassifying logically impossible cases
 🔴 Deployment issues on Streamlit Cloud
 🔴 Python version & dependency conflicts
@@ -170,7 +222,7 @@ Platform: Streamlit Community Cloud
 CI/CD: GitHub auto-deploy on push  
 
 Live App:
-🌐 https://<your-app-name>.streamlit.app  
+🌐 https://bank-fraud-system-shreeyansh.streamlit.app/  
 
 --------------------------------------------------
 🔮 FUTURE IMPROVEMENTS
@@ -193,9 +245,13 @@ Live App:
 🎯 KEY TAKEAWAY
 --------------------------------------------------
 This project demonstrates:
+
 ✔ Real-world fraud system design
+
 ✔ Hybrid ML + Rule architecture
+
 ✔ Risk-based decision making
+
 ✔ End-to-end ownership
 
 This is NOT just an ML model —
