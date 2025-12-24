@@ -80,13 +80,13 @@ In fraud systems, **stability & explainability > marginal accuracy gains**.
 
 --------------------------------------------------
 📈 MODEL PERFORMANCE
---------------------------------------------------
-Metric              | Value
-------------------- | -------
-Precision (Fraud)   | ~80%
-Recall (Fraud)      | ~90%
-ROC-AUC             | High
-False Negatives     | Minimized (priority)
+----------------------------------------------------------------------------------------------------
+Metric              | Random forest         | XGboost        |
+------------------- | --------------------- | -------------- |  
+Precision (Fraud)   | ~80%                  | ~55%           |
+Recall (Fraud)      | ~90%                  | ~96%           |
+ROC-AUC             | ~80%                  | ~60%           |
+False Negatives     | Minimized (priority)  | ~maximum       |
 
 📌 why RANDOM FOREST over XGBOOST?
 Random Forest output is more balanced then XGboost
