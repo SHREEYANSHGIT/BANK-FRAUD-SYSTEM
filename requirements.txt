@@ -2,6 +2,8 @@ streamlit
 numpy>=2.0.0
 pandas
 scikit-learn
+joblib
 opencv-python
 tensorflow
 rich>=10.14.0
+
