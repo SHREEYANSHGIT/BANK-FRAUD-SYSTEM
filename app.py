@@ -7,7 +7,7 @@ import os
 # Load trained model
 # ------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "rf_model.joblib")
+MODEL_PATH = os.path.join(BASE_DIR, "xgb_model.joblib")
 model = joblib.load(MODEL_PATH)
 
 st.set_page_config(page_title="Fraud Detection System", layout="centered")
@@ -228,4 +228,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
