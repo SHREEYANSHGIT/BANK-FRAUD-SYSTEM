@@ -54,27 +54,54 @@ https://www.kaggle.com/datasets/ealaxi/paysim1
 --------------------------------------------------
 🤖 MACHINE LEARNING MODEL
 --------------------------------------------------
-Model Used: **Random Forest Classifier**
 
-📌 Why Random Forest over XGBoost?
----------------------------------
-✔ Handles class imbalance well
+**Model Used: XGBoost Classifier** 
 
-✔ Robust to noisy financial data
+**📌 WHY XGBOOST OVER RANDOM FOREST (BUSINESS-DRIVEN DECISION)**
 
-✔ Easier to interpret for risk systems
+Although Random Forest shows more balanced precision and recall, the primary objective in bank fraud detection is NOT balance — it is minimizing False Negatives.
 
-✔ Faster & more stable for deployment
+--------------------------------------------------
+🔑 Core Principle in Banking Fraud Systems
+--------------------------------------------------
+ **Recall (Fraud) > Precision**
+ 
+ Missing a fraud (False Negative) is far more costly than flagging a legitimate transaction.
+ 
+--------------------------------------------------
+📊 Performance Insight
+--------------------------------------------------
 
-✔ Less overfitting compared to boosting
+Model         | Characteristics                   | Observations                                       |
+--------------|-----------------------------------|----------------------------------------------------|
+Random Forest | More balanced precision and recall| ~150 False Negatives out of ~1600 fraud cases      |
+.             |                                   | Suitable for general classification problems       |
+XGBoost       | Extremely high recall             | Only ~18 False Negatives out of ~1600 fraud cases  |
+.             |                                   | Aggressively captures fraud patterns               |
+.             |                                   | Ideal when fraud miss cost is very high            |
 
-🚫 Why NOT only XGBoost?
-XGBoost is powerful but:
-• Harder to interpret
-• Sensitive to noise
-• Overkill when business rules dominate
 
-In fraud systems, **stability & explainability > marginal accuracy gains**.
+**Note: at THRESHOLD 0.5 (default)
+Those ~18 missed fraud cases are business-critical.
+In real banking systems, even a single missed fraud can cause huge financial and reputational damage.**
+
+***🏦 Why Banks Prefer High Recall Models***
+
+✔ Fraud loss > customer inconvenience
+
+✔ False positives can be manually reviewed
+
+✔ False negatives cause direct monetary loss
+
+✔ Regulatory pressure favors conservative fraud blocking
+
+👉 Therefore, XGBoost is preferred despite lower precision, because:
+
+It maximizes fraud capture
+
+It minimizes undetected fraud
+
+It aligns with real-world banking risk strategy
 
 
 <img width="691" height="451" alt="image" src="https://github.com/user-attachments/assets/7cc51dda-f4da-460a-be5d-c64a4f225c09" />
@@ -85,13 +112,14 @@ In fraud systems, **stability & explainability > marginal accuracy gains**.
 ----------------------------------------------------------------------------------------------------
 Metric              | Random forest         | XGboost        |
 ------------------- | --------------------- | -------------- |  
-Precision (Fraud)   | ~80%                  | ~55%           |
-Recall (Fraud)      | ~90%                  | ~96%           |
-ROC-AUC             | ~80%                  | ~60%           |
-False Negatives     | Minimized (priority)  | ~maximum       |
+Precision (Fraud)   | ~80%                  | ~45%           |
+Recall (Fraud)      | ~90%  (priority)      | ~99%           |
+F1 scor             | ~80%                  | ~65%           |
+False Negatives     | Minimized             | ~maximum       |
 
-📌 why RANDOM FOREST over XGBOOST?
-Random Forest output is more balanced then XGboost
+📌 why XGBOOST over RANDOM FOREST ?
+
+XGBoost more recall (99%) then Random Rorest 
 --------------------------------------------------
 🧠 WHY ML + RULE-BASED (NOT ONLY ML)
 --------------------------------------------------
@@ -193,6 +221,7 @@ Features:
 - │
 - ├── 📓 main_model.ipynb              # Model training & evaluation
 - ├── 📦 rf_model.joblib               # Trained Random Forest model
+- ├── 📦 xgb_model.joblib              # Trained XGBoost model
 - ├── 🖥️ app.py                        # Streamlit application
 - ├── 📄 requirements.txt              # Required libraries
 - └── 📘 README.txt                    # Project documentation
