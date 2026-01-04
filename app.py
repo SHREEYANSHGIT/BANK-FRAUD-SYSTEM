@@ -12,7 +12,7 @@ model = joblib.load(MODEL_PATH)
 
 st.set_page_config(page_title="Hybrid Fraud Detection System", layout="centered")
 
-st.title("💳 Fraud Detection System")
+st.title("💳Hybrid Fraud Detection System")
 st.caption("Rule-based validation + ML risk scoring")
 st.caption("Developed by Shreeyansh Asati")
 
@@ -228,4 +228,5 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
