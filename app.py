@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "xgb_model.joblib")
 model = joblib.load(MODEL_PATH)
 
-st.set_page_config(page_title="Fraud Detection System", layout="centered")
+st.set_page_config(page_title="Hybrid Fraud Detection System", layout="centered")
 
 st.title("💳 Fraud Detection System")
 st.caption("Rule-based validation + ML risk scoring")
@@ -228,3 +228,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
