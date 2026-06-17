@@ -7,7 +7,7 @@
 
 🔗 GitHub : https://github.com/SHREEYANSHGIT/BANK-FRAUD-SYSTEM
 
-🌐 Live App (Streamlit): https://bank-fraud-system-shreeyansh.streamlit.app/
+🌐 Live App (Streamlit): https://bank-fraud-system-by-shreeyansh.streamlit.app/
 
 💾 Dataset link : https://www.kaggle.com/datasets/mtalaltariq/paysim-data
 
